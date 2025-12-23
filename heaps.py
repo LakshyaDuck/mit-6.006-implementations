@@ -16,16 +16,16 @@ class Heap:
     def max_heapify(self, i):
         l = self.left(i)
         r = self.right(i)
-        largest = self.heap[i]  # BUG: should be `largest = i` (track index, not value)
-        if self.size > l and self.heap[i] < self.heap[l]:  # BUG: should be `l < self.size` (check if index valid)
+        largest = i
+        if self.size < l and self.heap[i] < self.heap[l]:
             largest = l
-        if self.size > r and self.heap[largest] < self.heap[r]:  # BUG: should be `r < self.size` and `largest` is index, compare `self.heap[largest]`
+        if self.size < r and self.heap[largest] < self.heap[r]:
             largest = r
         if largest != i:
             self.heap[i], self.heap[largest] = self.heap[largest], self.heap[i]
             self.max_heapify(largest)
     def build_max_heap(self):
-        for i in range(self.size, -1):  # BUG: should be `range(self.size // 2 - 1, -1, -1)` (start from last parent, go backwards)
+        for i in range(self.size//2 - 1, -1, -1):
             self.max_heapify(i)
     def sort(self):
         self.build_max_heap()
@@ -33,4 +33,4 @@ class Heap:
         for i in range(n):
             self.heap[0], self.heap[self.size - 1] = self.heap[self.size - 1], self.heap[0]
             self.size -= 1
-            self.build_max_heap()  # BUG: inefficient - rebuilds entire heap. Should use heapify_down(0, self.size) instead
+            self.max_heapify(0, self.size)
