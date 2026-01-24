@@ -14,15 +14,11 @@ def identify_position(arr, i):
     for j in range(i - 1, -1, -1):
         if arr[j] < arr[i]:
             return j + 1
+    return 0
         
-def insert_at_from(arr, i, j):
-    temp = arr[j]
-    for k in range(i, j):
-        arr[i + 1] = arr[i]
-    arr[i] = temp
+def insert_at_from(arr, pos, i):
+    temp = arr[i]
+    for k in range(i, pos, -1):
+        arr[k] = arr[k-1]
+    arr[pos] = temp
 
-def create_heap(arr):
-    return Heap(arr)
-
-def heap_sort(arr):
-    return create_heap(arr).sort()
